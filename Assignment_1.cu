@@ -6,14 +6,14 @@ __global__ void Sum(float* d_in1,float* d_in2, float* d_out,int* d_array_size)
 {
     int id = blockIdx.x * blockDim.x + threadIdx.x;
     if(id < *d_array_size)
-     d_out[i] = d1_in[i] + d2_in[i];    
+     d_out[id] = d_in1[id] + d_in2[id];    
 }
 int main()
 {
     cout << "Enter the array size : ";
     cin >> Array_Size;
 	
-    float h_in1[Array_Size],h_in2[Array_Size] h_out[Array_Size];
+    float h_in1[Array_Size],h_in2[Array_Size],h_out[Array_Size];
     int Array_Bytes = Array_Size * sizeof(float);  
 	
     for(int i=0; i<Array_Size; i++)
