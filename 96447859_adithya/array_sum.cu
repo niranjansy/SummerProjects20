@@ -2,7 +2,6 @@
 using namespace std;
 
 
-
 __global__ void sum(float* d_a1, float* d_a2, int size)
 {
     int id = blockIdx.x * blockDim.x + threadIdx.x;
@@ -16,16 +15,16 @@ int main()
     cout<<"enter array size : ";
     cin>>array_size;
     float h_a1[array_size], h_a2[array_size];
-    float array_bytes=array_size*sizeof(float);
-    cout<<"elements of first array : ";
+    int array_bytes=array_size*sizeof(float);
+    //cout<<"elements of first array : ";
     for(int i=0; i<array_size; i++)
     {
-        cin>>h_a1[i];
+        h_a1[i]=i;
     }
-    cout<<"elements of second array : ";
+    //cout<<"elements of second array : ";
     for(int i=0; i<array_size; i++)
     {
-        cin>>h_a2[i];
+        h_a2[i]=i;
     }
     
     float *d_a1, *d_a2;
