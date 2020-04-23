@@ -9,8 +9,18 @@ __global__ void Sum(int* d1_in, int* d2_in, int* d_out,int* d_array_size)
 }
 int main()
 {
+    cout<<"Enter ArraySize\n";
+    cin>>Array_Size;
     int h1_in[Array_Size], h_out[Array_Size],h2_in[Array_Size];
-    int Array_Bytes = Array_Size * sizeof(int);  
+    int Array_Bytes = Array_Size * sizeof(int); 
+    for(i=0;i<Array_Size;i++)
+    {
+        h1_in[i]=2*i;
+    }
+    for(i=0;i<Array_Size;i++)
+    {
+        h2_in[i]=3*i;
+    }
 
     int *d1_in, *d_out, *d2_in,*d_array_size;
     cudaMalloc((void**)&d1_in, Array_Bytes);
