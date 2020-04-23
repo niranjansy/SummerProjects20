@@ -44,8 +44,8 @@ int main()
 
     // Copying input operands from host to device
     // For the GPU to perform any operation, the data has to be present in the GPU memory
-    cudaMemcpy(d_a, &h_a,  Array_Bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_b, &h_b,  Array_Bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_a, h_a,  Array_Bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_b, h_b,  Array_Bytes, cudaMemcpyHostToDevice);
 
     // Launching kernel with 1 block and 1 thread
     // The host launches the kernel on the device
@@ -53,7 +53,7 @@ int main()
     Add<<<ceil(1.0*N/1024), 1024>>>(d_a, d_b, d_c,N);
 
     // Copying the result from device to host
-    cudaMemcpy(&h_c, d_c, Array_Bytes, cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_c, d_c, Array_Bytes, cudaMemcpyDeviceToHost);
      
 
    
