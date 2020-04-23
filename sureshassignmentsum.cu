@@ -11,17 +11,16 @@ __global__ void Sum(float* d1_in, float* d2_in, float* d_out, int* d_arraysize)
 int main()
 {
     int h_arraysize;
-    cout << "Enter the arrays size : ";
-    cin >> h_arraysize;
+    h_arraysize=1000000;
     float h1_in[h_arraysize], h_out[h_arraysize] , h2_in[h_arraysize];
     int Array_Bytes = h_arraysize * sizeof(int);  
     for(int i=0; i<h_arraysize; i++)
     {
-        cin >> h1_in[i];
+        h1_in[i]=i;
     }
     for(int i=0; i<h_arraysize;i++)
     {
-	cin >> h2_in[i];
+	 h2_in[i];=i;
     }
     float *d1_in,*d2_in,*d_out;
     int *d_arraysize;
@@ -36,7 +35,7 @@ int main()
     Sum <<<ceil(1.0*h_arraysize/1024), 1024>>>(d1_in,d2_in,d_out,d_arraysize);
     // Copy the resulting array from GPU (d_out) to the CPU (h_out)
     cudaMemcpy(h_out, d_out, Array_Bytes, cudaMemcpyDeviceToHost);
-    for(int i=0; i<h_arraysize; i++)
+    for(int i=h_arraysize-5; i<h_arraysize; i++)
         cout << h_out[i] << " ";
     cudaFree(d1_in);
     cudaFree(d2_in);
