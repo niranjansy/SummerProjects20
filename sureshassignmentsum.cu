@@ -20,7 +20,7 @@ int main()
     }
     for(int i=0; i<h_arraysize;i++)
     {
-	 h2_in[i];=i;
+	 h2_in[i]=i;
     }
     float *d1_in,*d2_in,*d_out;
     int *d_arraysize;
