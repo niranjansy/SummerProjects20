@@ -11,7 +11,7 @@ __global__ void Sum(float* d1_in, float* d2_in, float* d_out, int* d_arraysize)
 int main()
 {
     int h_arraysize;
-    h_arraysize=1000000;
+    h_arraysize=100000;
     float h1_in[h_arraysize], h_out[h_arraysize] , h2_in[h_arraysize];
     int Array_Bytes = h_arraysize * sizeof(int);  
     for(int i=0; i<h_arraysize; i++)
