@@ -1,16 +1,16 @@
 #include<iostream>
 using namespace std;
 
-__global__ void Add(float *array1, float *array2, float *out,unsigned int *i)
+__global__ void Add(float *array1, float *array2, float *out)
 {
-	int id = blockIdx.x * blockDim.x + threadIdx.x + *i;
+	int id = blockIdx.x * blockDim.x + threadIdx.x;
 	out[id] = array1[id] + array2[id];
 	
 }
 
 int main()
 {
-	unsigned int array_Size, bigBlock = 1024*1024;
+	unsigned int array_Size;
 		
 	cout << "Enter the size of Array: ";
 	cin >> array_Size;
@@ -28,27 +28,17 @@ int main()
 	}
 
 	float *d_array1, *d_array2, *d_out;
-	unsigned int *d_i;
 	
 	cudaMalloc((void**)&d_array1, array_Bytes);
 	cudaMalloc((void**)&d_array2,array_Bytes);
 	cudaMalloc((void**)&d_out,array_Bytes);
-	cudaMalloc((void**)&d_i,sizeof(int));
 	
 	cudaMemcpy(d_array1, h_array1, array_Bytes, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_array2, h_array2, array_Bytes, cudaMemcpyHostToDevice);
 	
-	if(array_Size > bigBlock)
-	for(unsigned int *i=0;*i>=array_Size + bigBlock;*i+=bigBlock)
-	{
-		cudaMemcpy(d_i, i, sizeof(int), cudaMemcpyHostToDevice);
-		Add<<<1024,1024>>>(d_array1, d_array2, d_out, d_i);
-	}
-	else
-	{
-		cudaMemcpy(d_i, 0, sizeof(int), cudaMemcpyHostToDevice);
-		Add<<<ceil(1.0*array_Size/1024),1024>>>(d_array1, d_array2, d_out, d_i);
-	}
+
+	Add<<<ceil(1.0*array_Size/1024),1024>>>(d_array1, d_array2, d_out);
+
 	cudaError e = cudaMemcpy(h_out, d_out, array_Bytes, cudaMemcpyDeviceToHost);
 	
 	if(e!=cudaSuccess)
@@ -60,6 +50,5 @@ int main()
 	cudaFree(d_array1);
 	cudaFree(d_array2);
 	cudaFree(d_out); 
-	cudaFree(d_i);
 
 }
