@@ -6,7 +6,8 @@ __global__ void Add(float *d_a,float *d_b,float *d_c,int r,int c){
     int i =blockIdx.x*blockDim.x+threadIdx.x;
     int j =blockIdx.y*blockDim.y+threadIdx.y;
     int k = i+j*c;
-    if(i<r && j<c){
+    //i is defined for horizontal traversal
+    if(i<c && j<r){
         d_c[k]=d_a[k]+d_b[k];
     }    
 }
@@ -34,9 +35,9 @@ int main()
     cudaMemcpy(d_a, h_a, r*c*sizeof(float), cudaMemcpyHostToDevice);
     cudaMemcpy(d_b, h_b, r*c*sizeof(float), cudaMemcpyHostToDevice);
 
-    
-    dim3 threadPerBlock(r,c);
-    Add<<<1,threadPerBlock>>>(d_a,d_b,d_c,r,c);
+    dim3 dimBlock(32, 32);
+    dim3 dimGrid((int)ceil(1.0*r/dimBlock.x),(int)ceil(1.0*c/dimBlock.y));
+    Add<<<dimGrid,dimBlock>>>(d_a,d_b,d_c,r,c);
     cudaMemcpy(h_c, d_c, (r*c)*sizeof(float), cudaMemcpyDeviceToHost);
 
     cout<<"Sum of the 2 matrices is:\n";
