@@ -62,7 +62,7 @@ int main()
 	cudaMemcpy(d_array_size_x, &Array_Size_x, sizeof(int), cudaMemcpyHostToDevice);
 	
 	 dim3 dimBlock(32, 32);
-	 dim3 dimGrid((int)ceil(1.0*Array_Size_x/dimBlock.x),(int)ceil(1.0*Array_Size_y/dimBlock.y));
+	 dim3 dimGrid((int)ceil(1.0*Array_Size_y/dimBlock.x),(int)ceil(1.0*Array_Size_x/dimBlock.y));
 	 
     Sum<<<dimGrid, dimBlock>>>(d_in1, d_in2, d_out,d_array_size_x,d_array_size_y);
 	
