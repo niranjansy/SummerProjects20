@@ -7,9 +7,9 @@ __global__ void Sum(float* d_in1,float* d_in2, float* d_out,int* d_array_size_x,
 	int j = threadIdx.x + blockIdx.x * blockDim.x;
     int k = threadIdx.y + blockIdx.y * blockDim.y;
     
-	int i = k + j * *d_array_size_y;
+	int i = j + k * *d_array_size_y;
 	
-    if (k < *d_array_size_y && j < *d_array_size_x) 
+    if (j < *d_array_size_y && k < *d_array_size_x) 
        d_out[i] = d_in1[i] + d_in2[i];
 }
 int main()
