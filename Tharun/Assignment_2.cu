@@ -9,7 +9,7 @@ __global__ void Sum(float* d_in1,float* d_in2, float* d_out,int* d_array_size_x,
     
 	int i = j + k * *d_array_size_y;
 	
-    if (k < *d_array_size_y && j < *d_array_size_x) 
+    if (j < *d_array_size_y && k < *d_array_size_x) 
        d_out[i] = d_in1[i] + d_in2[i];
 }
 int main()
@@ -62,7 +62,7 @@ int main()
 	cudaMemcpy(d_array_size_x, &Array_Size_x, sizeof(int), cudaMemcpyHostToDevice);
 	
 	 dim3 dimBlock(32, 32);
-	 dim3 dimGrid((int)ceil(1.0*Array_Size_x/dimBlock.x),(int)ceil(1.0*Array_Size_y/dimBlock.y));
+	 dim3 dimGrid((int)ceil(1.0*Array_Size_y/dimBlock.x),(int)ceil(1.0*Array_Size_x/dimBlock.y));
 	 
     Sum<<<dimGrid, dimBlock>>>(d_in1, d_in2, d_out,d_array_size_x,d_array_size_y);
 	
