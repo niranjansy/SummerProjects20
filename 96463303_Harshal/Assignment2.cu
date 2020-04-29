@@ -7,7 +7,7 @@ __global__ void Sum(float* d_in1,float* d_in2, float* d_out,int* d_arr_size_x,in
 	int j = threadIdx.x + blockIdx.x * blockDim.x;
     int k = threadIdx.y + blockIdx.y * blockDim.y;
 
-	int i = j + k * *d_arr_size_y;
+	int i = k + j * *d_arr_size_y;
 
     if (k < *d_arr_size_y && j < *d_arr_size_x) 
        d_out[i] = d_in1[i] + d_in2[i];
