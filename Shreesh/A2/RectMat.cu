@@ -9,20 +9,20 @@ using namespace std::chrono;
 //Device code
 __global__ void AddN(float* a, float* b, 
     float* c, int* ro, int* co){
-    int i, j, idx;
+    int x, y, idx;
     //assign a thread to each element (i,j)
-    i = blockIdx.x * blockDim.x + threadIdx.x;
-    j = blockIdx.y * blockDim.y + threadIdx.y;
+    x = blockIdx.x * blockDim.x + threadIdx.x;
+    y = blockIdx.y * blockDim.y + threadIdx.y;
     
     /*
     Addressing logic:
-    Traverse i number of column lengths followed 
-    by an offset of j
+    Traverse y number of column lengths followed 
+    by an offset of x
     */
 
-    idx = i * (*co) + j;
+    idx = y * (*co) + x;
     
-    if(i < *ro && j < *co){
+    if(y < *ro && x < *co){
         *(c+idx) = *(a+idx) + *(b+idx);
         // c[idx] = a[idx] + b[idx];
     }
@@ -166,11 +166,11 @@ void fillRandom(float *arr, unsigned int seed){
 }
 
 void cpu_add(float* a, float* b, float* d){
-    for (int i = 0; i < row; i++)
+    for (int y = 0; y < row; y++)
     {
-        for (int j = 0; j < col; j++)
+        for (int x = 0; x < col; x++)
         {
-            *((d+i*col)+j) = *((a+i*col)+j) + *((b+i*col)+j);
+            *((d+y*col)+x) = *((a+y*col)+x) + *((b+y*col)+x);
         }
     }
     
