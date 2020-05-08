@@ -21,7 +21,7 @@ int main()
     int r,c;
     cin>>r>>c;
     int bytes=r*c*sizeof(int);
-    int h_a[r][c], h_b[r][c];
+    int h_a[r][c], h_b[c][r];
     for(int i=0;i<r;i++)
     {
         for(int j=0;j<c;j++)
